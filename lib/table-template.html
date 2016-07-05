@@ -38,7 +38,7 @@
                     <span v-if="sortable(column)" class="vuetables__sort-icon" v-bind:class="sortableChevronClass(column)"></span>
                 </th>
             </tr>
-            <tr v-if="options.filterByColumn" class="VueTables__filters-row">
+            <tr v-if="options.filterByColumn" class="vuetables__filters-row">
                 <th v-for="column in allColumns">
                     <div class="vuetables__column-filter VueTables__{{column}}-filter-wrapper" v-if="filterable(column)">
                         <input @keydown="search() | debounce options.delay"
