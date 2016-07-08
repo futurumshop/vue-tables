@@ -33,12 +33,14 @@
     <table class="vuetables__table table" v-bind:class="options.skin">
         <thead>
             <tr>
+                <th v-if="options.selectable"><input type="checkbox" v-model="selectedAllChecked" @change="selectAll"/></th>
                 <th @click="orderByColumn(column)" v-for="column in allColumns" class="vuetables__column" v-bind:class="sortableClass(column)">
                     <span class="vuetables__heading">{{getHeading(column)}}</span>
                     <span v-if="sortable(column)" class="vuetables__sort-icon" v-bind:class="sortableChevronClass(column)"></span>
                 </th>
             </tr>
             <tr v-if="options.filterByColumn" class="vuetables__filters-row">
+                <th v-if="options.selectable"></th>
                 <th v-for="column in allColumns">
                     <div class="vuetables__column-filter VueTables__{{column}}-filter-wrapper" v-if="filterable(column)">
                         <input @keydown="search() | debounce options.delay"
@@ -73,7 +75,9 @@
             </tr>
         </tfoot>
         <tbody v-el:tbody>
-            <tr v-for="row in data [[rowFilters]]" [[trackBy]] @click='options.onRowClick(row)'>
+
+            <tr v-for="row in data [[rowFilters]]" [[trackBy]] @click='options.onRowClick(row)' class="vuetables__row" v-bind:class="{'vuetables__row--selected': row._selected}">
+                <td v-if="options.selectable"><input type="checkbox" v-model="row._selected" /></td>
                 <td v-for="column in allColumns" v-html="row[column] | render row column [[columnFilters]]"></td>
             </tr>
 
